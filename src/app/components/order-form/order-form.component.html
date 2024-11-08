@@ -1,8 +1,8 @@
-<form [formGroup]="orderForm" (submit)="createOrder()">
-  <div class="d-flex justify-content-center">
-    <div class="m-2">
-      <label for="clientName">Cliente:</label>
-      <input id="clientName" type="text" name="clientName" formControlName="name">
+<form [formGroup]="orderForm" (submit)="createOrder()" class="container mt4">
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label class="form-label" for="clientName">Cliente:</label>
+      <input class="form-control" id="clientName" type="text" name="clientName" formControlName="name">
       @if(orderForm.get('name')?. invalid &&
       (orderForm.get('name')?.touched || orderForm.get('name')?.dirty)){
         <div class="text-danger">
@@ -15,9 +15,9 @@
         </div>
       }
     </div>
-    <div class="m-2">
-      <label for="clientEmail">Email:</label>
-      <input id="clientEmail" type="text" name="clientEmail" formControlName="email">
+    <div class="col-md-6 mb-3">
+      <label class="form-label" for="clientEmail">Email:</label>
+      <input class="form-control" id="clientEmail" type="text" name="clientEmail" formControlName="email">
       @if(orderForm.get('email')?. invalid &&
       (orderForm.get('email')?.touched || orderForm.get('email')?.dirty)){
         <div class="text-danger">
@@ -35,41 +35,51 @@
     </div>
   </div>
   <div>
-    <div class="card">
-      <div class="d-flex justify-content-between">
-        <div class="card-header">Productos</div>
-        <button type="button" class="btn btn-primary" (click)="addProduct()">+</button>
+    <div class="card mb-3">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Productos</span>
+        <button type="button" class="btn btn-primary btn-sm" (click)="addProduct()">+</button>
       </div>
-      <div formArrayName="products">
+      <div class="card-body" formArrayName="products">
         @for (p of products.controls; track $index) {
-          <div [formGroupName]="$index" class="d-flex justify-content-between">
-            <div class="p-1">
-              <label for="product">Producto:</label>
+          <div [formGroupName]="$index" class="row mb-2">
+            <div class="col-md-4">
+              <label class="form-label" for="product">Producto:</label>
               <select id="product" formControlName="productId" (change)="cambiarValor($index)" class="form-select">
                 @for(op of productosService; track $index){
                   <option value="{{op.id}}">{{op.name}}</option>
                 }
               </select>
             </div>
-            <div class="p-1">
-              <label for="quantity">Cantidad:</label>
-              <input id="quantity" class="form-control" type="number" formControlName="quantity">
+            <div class="col-md-2">
+              <label class="form-label" for="quantity">Cantidad:</label>
+              <input class="form-control" id="quantity"  type="number" formControlName="quantity" (change)="calculateTotal()">
             </div>
-            <div class="p-1">
-              <label for="price">Precio:</label>
-              <input id="price" class="form-control" type="number" formControlName="price" readonly>
+            <div class="col-md-2">
+              <label class="form-label" for="price">Precio:</label>
+              <input class="form-control" id="price" type="number" formControlName="price" readonly>
             </div>
-            <div class="p-1">
-              <label for="stock">Stock:</label>
-              <input id="stock" class="form-control" type="number" formControlName="stock" readonly>
+            <div class="col-md-2">
+              <label class="form-label" for="stock">Stock:</label>
+              <input class="form-control" id="stock"  type="number" formControlName="stock" readonly>
             </div>
-            <div>
-              <button type="button" class="btn btn-danger" (click)="removeProduct($index)">X</button>
+            <div class="col-md-2 d-flex align-items-end">
+              <button type="button" class="btn btn-primary btn-sm" (click)="removeProduct($index)">X</button>
             </div>
           </div>
         }
       </div>
     </div>
   </div>
-  <button class="btn btn-primary" type="submit" [disabled]="orderForm.invalid">Crear</button>
+  <div class="card mb-3">
+    <div class="card-body d-flex justify-content-between">
+      @if (hasDiscount){
+        <span> 10% de Descuento!!</span>
+      }
+      <div class=""> </div>
+      <span><b>Total:</b></span>
+      <span>{{'$' + total}}</span>
+    </div>
+  </div>
+  <button class="btn btn-primary me-auto" type="submit" [disabled]="orderForm.invalid">Crear</button>
 </form>

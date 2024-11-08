@@ -159,6 +159,44 @@
       "total": 999.99,
       "orderCode": "p.comFri Nov 08 2024",
       "timeStamp": "2024-11-08T16:03:01.760Z"
+    },
+    {
+      "id": "",
+      "customerName": "pepe",
+      "email": "gmail@gmail.com",
+      "products": [
+        {
+          "productId": "1",
+          "quantity": 2,
+          "stock": 50,
+          "price": 999.99
+        }
+      ],
+      "total": 1799.982,
+      "orderCode": "p.comFri Nov 08 2024",
+      "timeStamp": "2024-11-08T16:40:30.015Z"
+    },
+    {
+      "id": "",
+      "customerName": "chuwaka",
+      "email": "chukaka@email.com",
+      "products": [
+        {
+          "productId": "1",
+          "quantity": 2,
+          "stock": 50,
+          "price": 999.99
+        },
+        {
+          "productId": "2",
+          "quantity": 3,
+          "stock": 100,
+          "price": 699.99
+        }
+      ],
+      "total": 3689.955000000001,
+      "orderCode": "c.comFri Nov 08 2024",
+      "timeStamp": "2024-11-08T16:48:33.568Z"
     }
   ]
 }

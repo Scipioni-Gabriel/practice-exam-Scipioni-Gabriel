@@ -3,7 +3,7 @@ import {ProductService} from "../../service/product.service";
 import {OrderService} from "../../service/order.service";
 import {Router, RouterLink} from "@angular/router";
 import {Order} from "../../models/order";
-import {DatePipe} from "@angular/common";
+import {DatePipe, DecimalPipe} from "@angular/common";
 import {ProductOrder} from "../../models/product-order";
 import {FormsModule} from "@angular/forms";
 
@@ -13,7 +13,8 @@ import {FormsModule} from "@angular/forms";
   imports: [
     DatePipe,
     FormsModule,
-    RouterLink
+    RouterLink,
+    DecimalPipe
   ],
   templateUrl: './order-list.component.html',
   styleUrl: './order-list.component.css'
@@ -76,8 +77,9 @@ export class OrderListComponent implements OnInit{
     }
   }
 
+  getTotalProductCount(products: ProductOrder[]): number {
+    return products.reduce((total, product) => total + product.quantity, 0);
+  }
 
 
-
-  protected readonly HTMLInputElement = HTMLInputElement;
 }

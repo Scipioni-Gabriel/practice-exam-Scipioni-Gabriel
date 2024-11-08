@@ -16,39 +16,41 @@ import {OrderService} from "../../service/order.service";
   styleUrl: './order-form.component.css'
 })
 export class OrderFormComponent implements OnInit {
-  productosService:Product[]=[];
-  hasDiscount:boolean=false;
+  productosService: Product[] = [];
+  hasDiscount: boolean = false;
   private readonly productService = inject(ProductService);
   private readonly orderService = inject(OrderService);
   private readonly router = inject(Router);
 
-  orderForm:FormGroup = new FormGroup({
-    name:new FormControl('',[Validators.required,Validators.minLength(3)]),
-    email:new FormControl('',[Validators.required, Validators.email], [this.emailOrdenesValidator()]),
+  total: number = 0;
+
+  orderForm: FormGroup = new FormGroup({
+    name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    email: new FormControl('', [Validators.required, Validators.email], [this.emailOrdenesValidator()]),
     products: new FormArray([])
   });
-  selectedProduct: Product| undefined;
+  selectedProduct: Product | undefined;
 
-  get products(){
+  get products() {
     return this.orderForm.controls['products'] as FormArray;
   }
 
-  addProduct(){
+  addProduct() {
     this.products.push(new FormGroup({
-      productId:new FormControl(),
-      quantity: new FormControl(0, [Validators.required,Validators.min(1)]),
-      stock:new FormControl(),
+      productId: new FormControl(),
+      quantity: new FormControl(0, [Validators.required, Validators.min(1)]),
+      stock: new FormControl(),
       price: new FormControl()
     }));
   }
 
-  removeProduct(index:number){
+  removeProduct(index: number) {
     this.products.removeAt(index);
   }
 
   ngOnInit(): void {
-    this.productService.getProducts().subscribe((data)=>{
-      this.productosService=data;
+    this.productService.getProducts().subscribe((data) => {
+      this.productosService = data;
       this.addProduct()
     })
   }
@@ -97,7 +99,10 @@ export class OrderFormComponent implements OnInit {
     if(total>1000){
       this.hasDiscount=true;
       total=total*0.9;
+    }else {
+      this.hasDiscount=false;
     }
+    this.total = total;
     return total;
   }
 

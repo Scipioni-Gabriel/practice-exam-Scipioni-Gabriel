@@ -35,9 +35,9 @@
             <th>{{or.orderCode}}</th>
             <td>{{or.customerName}}</td>
             <td>{{or.email}}</td>
-            <td>{{or.products.length.toString() + 'items'}}</td>
+            <td>{{getTotalProductCount(or.products) + ' items'}}</td>
             <td>{{ or.timeStamp ? (or.timeStamp | date:'mediumDate') : 'Fecha no disponible' }}</td>
-            <td>{{'$' + or.total.toString()}}</td>
+            <td>{{ '$' + (or.total | number:'1.2-2') }}</td>
           </tr>
           }
         </tbody>

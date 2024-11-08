@@ -95,6 +95,22 @@
       "total": 1529.982,
       "orderCode": "L.com222249",
       "timestamp": "2024-10-28T14:53:42.249Z"
+    },
+    {
+      "id": "",
+      "customerName": "pepe",
+      "email": "email@email.com",
+      "products": [
+        {
+          "productId": "2",
+          "quantity": 1,
+          "stock": 100,
+          "price": 699.99
+        }
+      ],
+      "total": 699.99,
+      "orderCode": "p.comFri Nov 08 2024",
+      "timeStamp": "2024-11-08T03:56:20.177Z"
     }
   ]
 }

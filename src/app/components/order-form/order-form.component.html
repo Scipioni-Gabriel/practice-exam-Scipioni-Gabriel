@@ -1,1 +1,74 @@
-<p>order-form works!</p>
+<form [formGroup]="orderForm" (submit)="createOrder()">
+  <div class="d-flex justify-content-center">
+    <div class="m-2">
+      <label for="clientName">Cliente</label>
+      <input type="text" id="clientName" name="clientName"  formControlName="name">
+<!--
+       @if(orderForm.get('name')?. invalid &&
+       (orderForm.get('name')?.touched || orderForm.get('name')?.dirty)){
+         <div class="text-danger">
+           @if (orderForm.get('name')?.hasError('required')){
+             <div> <small> el nombre es obligatorio</small></div>
+           }
+           @if (orderForm.get('name')?.hasError('minlength')){
+             <div> <small> El nombre debe tener al menos 3 caracteres.</small></div>
+           }
+         </div>
+       }-->
+      </div>
+      <div class="m-2">
+        <label for="clientEmail">Email</label>
+        <input type="text" id="clientEmail" name="clientEmail" formControlName="email">
+<!--
+        @if(orderForm.get('email')?. invalid &&
+        (orderForm.get('email')?.touched || orderForm.get('email')?.dirty)){
+          <div class="text-danger">
+            @if (orderForm.get('email')?.hasError('required')){
+              <div> <small> El email es obligatorio</small></div>
+            }
+            @if (orderForm.get('email')?.hasError('email')){
+              <div> <small> Porfavor ingresar un email valido.</small></div>
+            }
+          </div>
+        }-->
+      </div>
+    </div>
+  <div>
+    <div class="card">
+      <div class="d-flex justify-content-between">
+        <div class="card-header">Productos</div>
+        <button type="button" class="btn btn-primary" (click)="addProduct()">+</button>
+      </div>
+      <div formArrayName="products">
+        @for (p of products.controls; track $index) {
+          <div [formGroupName]="$index" class="d-flex justify-content-between">
+            <div class="p-1">
+              <label for="product">Producto:</label>
+              <select id="product" formControlName="productId" (change)="cambiarValor($index)" class="form-select">
+                @for(op of productosService; track $index){
+                  <option value="{{op.id}}">{{op.name}}</option>
+                }
+              </select>
+            </div>
+            <div class="p-1">
+              <label for="quantity">Cantidad:</label>
+              <input id="quantity" class="form-control" type="number" formControlName="quantity">
+            </div>
+            <div class="p-1">
+              <label for="price">Precio:</label>
+              <input id="price" class="form-control" type="number" formControlName="price" readonly>
+            </div>
+            <div class="p-1">
+              <label for="stock">Stock:</label>
+              <input id="stock" class="form-control" type="number" formControlName="stock" readonly>
+            </div>
+            <div>
+              <button type="button" class="btn btn-danger" (click)="removeProduct($index)">X</button>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+  <button class="btn btn-primary" type="submit" [disabled]="orderForm.invalid">Crear</button>
+</form>

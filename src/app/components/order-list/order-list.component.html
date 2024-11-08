@@ -1,1 +1,47 @@
-<p>order-list works!</p>
+<div class="container">
+  <div class="d-flex justify-content-between">
+    <div class="me-auto">
+      <h2>
+        Orders
+      </h2>
+    </div>
+    <div>
+      <button class="btn btn-primary" [routerLink]="['/create-order']">Create New Order</button>
+    </div>
+  </div>
+
+  <div class="m-2 card">
+    <div class="card-header">
+      <input class="form-control w-100" type="text" placeholder="Search by customer name or email..."
+             [(ngModel)]="emailOrName" (ngModelChange)="ordersByNameOrEmail()" change>
+
+
+    </div>
+    <div class="card-body">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Codigo de orden</th>
+          <th>Cliente</th>
+          <th>Email</th>
+          <th>Productos</th>
+          <th>Fecha de compra</th>
+          <th>Total</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+          @for (or of filteredOrders; track $index){
+          <tr>
+            <th>{{or.orderCode}}</th>
+            <td>{{or.customerName}}</td>
+            <td>{{or.email}}</td>
+            <td>{{or.products.length.toString() + 'items'}}</td>
+            <td>{{ or.timeStamp ? (or.timeStamp | date:'mediumDate') : 'Fecha no disponible' }}</td>
+            <td>{{'$' + or.total.toString()}}</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

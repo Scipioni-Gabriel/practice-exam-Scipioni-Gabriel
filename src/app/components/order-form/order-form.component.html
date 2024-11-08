@@ -25,7 +25,10 @@
             <div> <small> El email es obligatorio</small></div>
           }
           @if (orderForm.get('email')?.hasError('email')){
-            <div> <small> Profavor ingresar un email valido.</small></div>
+            <div> <small> Porfavor ingresar un email valido.</small></div>
+          }
+          @if (orderForm.get('email')?.hasError('tooManyOrders')){
+            <div> <small> Ya ha realizado muchos pedidos Hoy.</small></div>
           }
         </div>
       }

@@ -24,7 +24,7 @@ export class OrderFormComponent implements OnInit {
 
   orderForm:FormGroup = new FormGroup({
     name:new FormControl('',[Validators.required,Validators.minLength(3)]),
-    email:new FormControl('',[Validators.required, Validators.email]),
+    email:new FormControl('',[Validators.required, Validators.email], [this.emailOrdenesValidator()]),
     products: new FormArray([])
   });
   selectedProduct: Product| undefined;
@@ -101,23 +101,38 @@ export class OrderFormComponent implements OnInit {
     return total;
   }
 
+
   emailOrdenesValidator(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       return this.orderService.getOrdersByEmail(control.value).pipe(
         map((orders) => {
           let counterOrders = 0;
+
+          // Obtener la fecha y hora actuales
+          const now = new Date();
+
+          // Calcular la fecha límite (hace 24 horas)
+          const limitDate = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+
+          // Contar las órdenes que fueron realizadas dentro de las últimas 24 horas
           orders.forEach(order => {
-            if (order.timeStamp==new Date()) {
+            const orderDate = new Date(order.timeStamp);
+
+            if (orderDate >= limitDate && orderDate <= now) {
               counterOrders++;
             }
           });
+
+          // Validar si hay más de 3 órdenes en las últimas 24 horas
           if (counterOrders >= 3) {
-            return { tooManyOrders: true };
+            return { tooManyOrders: true };  // Error si hay más de 3 pedidos en las últimas 24 horas
           }
-          return null;
+
+          return null;  // Si no, el control es válido
         }),
-        catchError(() => of(null))
+        catchError(() => of(null))  // Si ocurre un error en la llamada al servicio, devolver null (validación exitosa)
       );
     };
   }
+
 }

@@ -139,5 +139,15 @@ export class OrderFormComponent implements OnInit {
       );
     };
   }
+  sameProductValidator(formArray: FormArray): ValidationErrors | null {
+    const productIds = formArray.controls.map(control => control.get('productId')?.value);
 
+
+    const duplicates = productIds.some((id, index) => productIds.indexOf(id) !== index);
+
+    if (duplicates) {
+      return { sameProduct: true };
+    }
+    return null;
+  }
 }
